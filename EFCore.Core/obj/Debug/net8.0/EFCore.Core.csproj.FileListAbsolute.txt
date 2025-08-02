@@ -1,0 +1,14 @@
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\bin\Debug\net8.0\EFCore.Core.deps.json
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\bin\Debug\net8.0\EFCore.Core.runtimeconfig.json
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\bin\Debug\net8.0\EFCore.Core.dll
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\bin\Debug\net8.0\EFCore.Core.pdb
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.csproj.AssemblyReference.cache
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.AssemblyInfoInputs.cache
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.AssemblyInfo.cs
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.csproj.CoreCompileInputs.cache
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.dll
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\refint\EFCore.Core.dll
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.pdb
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\EFCore.Core.genruntimeconfig.cache
+C:\Users\Duong\source\repos\EFCore\EFCore.Core\obj\Debug\net8.0\ref\EFCore.Core.dll
