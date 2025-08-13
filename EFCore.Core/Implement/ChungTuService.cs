@@ -123,9 +123,19 @@ namespace EFCore.Core.Implement
                 })
                 .ToListAsync();
 
-            var dtos = _mapper.Map<IList<ChungTuDto>>(entities);
+            var projectedQuery = query
+        .OrderByDescending(x => x.NgayPhatSinh)
+        .Skip((pageindex - 1) * pagesize)
+        .Take(pagesize)
+        .Select(x => new
+        {
+            x.SoChungTu,
+            x.NgayPhatSinh,
+            x.TongTienChuaThue
+        });
 
-            return (dtos, total);
+            Console.WriteLine(projectedQuery.ToQueryString());
+            return (entities, total);
         }
     }
 }

@@ -17,53 +17,56 @@ namespace EFCore.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChungTuDto>> Get(long id)
+        public async Task<ActionResult<ApiResponse<ChungTuDto>>> Get([FromRoute] long id)
         {
             var result = await _chungTuService.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return Ok(result);
+            if (result == null)
+                return NotFound(new ApiResponse<ChungTuDto>("Không tìm thấy chứng từ", null, "NotFound"));
+            return Ok(new ApiResponse<ChungTuDto>("Lấy dữ liệu thành công", result));
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ChungTuDto>>> GetAll()
+        public async Task<ActionResult<ApiResponse<List<ChungTuDto>>>> GetAll([FromQuery] int? take = null)
         {
             var result = await _chungTuService.GetAllAsync();
-            return Ok(result.Take(10));
+            var data = take.HasValue ? result.Take(take.Value).ToList() : result;
+            return Ok(new ApiResponse<List<ChungTuDto>>("Lấy danh sách thành công", data));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ChungTuDto dto)
+        public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] ChungTuDto dto)
         {
             await _chungTuService.AddAsync(dto);
-            return Ok();
+            return Ok(new ApiResponse<object>("Tạo mới thành công", null));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(long id, [FromBody] ChungTuDto dto)
+        public async Task<ActionResult<ApiResponse<object>>> Update([FromRoute] long id, [FromBody] ChungTuDto dto)
         {
-            if (id != dto.Id) return BadRequest();
+            if (id != dto.Id)
+                return BadRequest(new ApiResponse<object>("Id không khớp", null, "BadRequest"));
             await _chungTuService.UpdateAsync(dto);
-            return Ok();
+            return Ok(new ApiResponse<object>("Cập nhật thành công", null));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(long id)
+        public async Task<ActionResult<ApiResponse<object>>> Delete([FromRoute] long id)
         {
             await _chungTuService.DeleteAsync(id);
-            return Ok();
+            return Ok(new ApiResponse<object>("Xóa thành công", null));
         }
+
         [HttpGet("filter")]
-        public async Task<ActionResult<(IList<ChungTuDto>, long)>> GetByFilter(
-    [FromQuery] bool trangThaiChungTu,
-    [FromQuery] string? keyword,
-    [FromQuery] DateTime fromdate,
-    [FromQuery] DateTime todate,
-    [FromQuery] int pageindex = 1,
-    [FromQuery] int pagesize = 20)
+        public async Task<ActionResult<ApiResponse<object>>> GetByFilter(
+            [FromQuery] bool trangThaiChungTu,
+            [FromQuery] string? keyword,
+            [FromQuery] DateTime fromdate,
+            [FromQuery] DateTime todate,
+            [FromQuery] int pageindex = 1,
+            [FromQuery] int pagesize = 20)
         {
             var (dataDto, total) = await _chungTuService.GetByFilterAsync(trangThaiChungTu, keyword, fromdate, todate, pageindex, pagesize);
-
-            return Ok(new { dataDto, total });
+            return Ok(new ApiResponse<object>("Lọc dữ liệu thành công", new { data = dataDto, total }));
         }
     }
 }

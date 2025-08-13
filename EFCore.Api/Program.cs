@@ -13,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<QlvtthanDongBacOfficialContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Server=DuongDepTrai\\MSSQLSERVER01;Database=QLVTThanDongBacOfficial;Trusted_Connection=True;TrustServerCertificate=True;")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Server=DuongDepTrai\\MSSQLSERVER01;Database=QLVTThanDongBacOfficial;Trusted_Connection=True;TrustServerCertificate=True;")
+    ).LogTo(Console.WriteLine, LogLevel.Information));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
