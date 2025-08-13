@@ -404,3 +404,27 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 .gitattributes
+.vs/EFCore/v17/.suo
+.vs/EFCore/v17/DocumentLayout.json
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.dll
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.exe
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.pdb
+EFCore.Api/bin/Debug/net8.0/EFCore.Core.dll
+EFCore.Api/bin/Debug/net8.0/EFCore.Core.pdb
+EFCore.Api/obj/Debug/net8.0/apphost.exe
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.AssemblyInfoInputs.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.csproj.AssemblyReference.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.csproj.FileListAbsolute.txt
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.dll
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.pdb
+EFCore.Api/obj/Debug/net8.0/ref/EFCore.Api.dll
+EFCore.Api/obj/Debug/net8.0/refint/EFCore.Api.dll
+EFCore.Core/bin/Debug/net8.0/EFCore.Core.dll
+EFCore.Core/bin/Debug/net8.0/EFCore.Core.pdb
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.AssemblyInfo.cs
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.AssemblyInfoInputs.cache
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.csproj.FileListAbsolute.txt
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.dll
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.pdb
+EFCore.Core/obj/Debug/net8.0/ref/EFCore.Core.dll
+EFCore.Core/obj/Debug/net8.0/refint/EFCore.Core.dll
