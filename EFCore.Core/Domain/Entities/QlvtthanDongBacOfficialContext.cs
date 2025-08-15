@@ -6,8 +6,13 @@ namespace EFCore.Core.Domain.Entities;
 
 public partial class QlvtthanDongBacOfficialContext : DbContext
 {
-    public QlvtthanDongBacOfficialContext()
+    private readonly string _connectionString;
+    private readonly bool _useLazyLoading;
+
+    public QlvtthanDongBacOfficialContext(string connectionString, bool useLazyLoading = true)
     {
+        _connectionString = connectionString;
+        _useLazyLoading = useLazyLoading;
     }
 
     public QlvtthanDongBacOfficialContext(DbContextOptions<QlvtthanDongBacOfficialContext> options)
@@ -275,10 +280,25 @@ public partial class QlvtthanDongBacOfficialContext : DbContext
 
     public virtual DbSet<YeuToChiPhi> YeuToChiPhis { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DuongDepTrai\\MSSQLSERVER01;Database=QLVTThanDongBacOfficial;Trusted_Connection=True;TrustServerCertificate=True;");
-
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            if (_useLazyLoading)
+                optionsBuilder.UseLazyLoadingProxies();
+                
+            try 
+            {
+                optionsBuilder.UseSqlServer(_connectionString);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Database connection error: {ex.Message}");
+                throw new Exception($"Failed to connect to database. Connection string: {_connectionString.Substring(0, _connectionString.IndexOf(';'))}", ex);
+            }
+        }
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BookLocking>(entity =>
@@ -564,6 +584,7 @@ public partial class QlvtthanDongBacOfficialContext : DbContext
             entity.Property(e => e.TrangThaiChungTuId).HasColumnName("TrangThaiChungTuID");
             entity.Property(e => e.TyGia).HasColumnType("decimal(18, 6)");
             entity.Property(e => e.VuViecId).HasColumnName("VuViecID");
+            entity.Property(e => e.Email).HasColumnName("Email");
         });
 
         modelBuilder.Entity<ChungTuChiTiet>(entity =>

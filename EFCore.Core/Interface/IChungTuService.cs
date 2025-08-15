@@ -11,6 +11,7 @@ namespace EFCore.Core.Interface
     public interface IChungTuService
     {
         Task<ChungTuDto?> GetByIdAsync(long id);
+        Task<ChungTuDto?> GetByIdLazyLoadingAsync(long id, bool loadDetails);
         Task<List<ChungTuDto>> GetAllAsync();
         Task AddAsync(ChungTuDto entity);
         Task UpdateAsync(ChungTuDto entity);

@@ -10,7 +10,7 @@ public class MapperProfile : Profile
         CreateMap<ChungTu, ChungTuDto>()
             .ForMember(dest => dest.ChungTuChiTiets, opt => opt.MapFrom(src => src.ChungTuChiTiets));
         CreateMap<ChungTuDto, ChungTu>()
-            .ForMember(dest => dest.ChungTuChiTiets, opt => opt.MapFrom(src => src.ChungTuChiTiets));
+             .ForMember(dest => dest.ChungTuChiTiets, opt => opt.Ignore());
 
         // ChungTuChiTiet <-> ChungTuChiTietDto
         CreateMap<ChungTuChiTiet, ChungTuChiTietDto>().ReverseMap();

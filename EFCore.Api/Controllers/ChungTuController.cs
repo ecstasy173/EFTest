@@ -24,6 +24,17 @@ namespace EFCore.Api.Controllers
                 return NotFound(new ApiResponse<ChungTuDto>("Không tìm thấy chứng từ", null, "NotFound"));
             return Ok(new ApiResponse<ChungTuDto>("Lấy dữ liệu thành công", result));
         }
+        [HttpGet("{id}/{includeDetails}/lazy")]
+        public async Task<ActionResult<ApiResponse<ChungTuDto>>> GetWithLazyLoading(
+            [FromRoute] long id,
+            [FromRoute] bool includeDetails = false)
+        {
+            var result = await _chungTuService.GetByIdLazyLoadingAsync(id, includeDetails);
+            if (result == null)
+                return NotFound(new ApiResponse<ChungTuDto>("Không tìm thấy chứng từ", null, "NotFound"));
+
+            return Ok(new ApiResponse<ChungTuDto>("Lấy dữ liệu thành công (Lazy Loading)", result));
+        }
 
         [HttpGet]
         public async Task<ActionResult<ApiResponse<List<ChungTuDto>>>> GetAll([FromQuery] int? take = null)
@@ -36,6 +47,8 @@ namespace EFCore.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] ChungTuDto dto)
         {
+            if (!string.IsNullOrEmpty(dto.Email) && !IsValidEmail(dto.Email))
+                return BadRequest(new ApiResponse<object>("Email không đúng định dạng", null, "BadRequest"));
             await _chungTuService.AddAsync(dto);
             return Ok(new ApiResponse<object>("Tạo mới thành công", null));
         }
@@ -43,6 +56,8 @@ namespace EFCore.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ApiResponse<object>>> Update([FromRoute] long id, [FromBody] ChungTuDto dto)
         {
+            if (!string.IsNullOrEmpty(dto.Email) && !IsValidEmail(dto.Email))
+                return BadRequest(new ApiResponse<object>("Email không đúng định dạng", null, "BadRequest"));
             if (id != dto.Id)
                 return BadRequest(new ApiResponse<object>("Id không khớp", null, "BadRequest"));
             await _chungTuService.UpdateAsync(dto);
@@ -67,6 +82,19 @@ namespace EFCore.Api.Controllers
         {
             var (dataDto, total) = await _chungTuService.GetByFilterAsync(trangThaiChungTu, keyword, fromdate, todate, pageindex, pagesize);
             return Ok(new ApiResponse<object>("Lọc dữ liệu thành công", new { data = dataDto, total }));
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

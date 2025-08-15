@@ -15,18 +15,38 @@ namespace EFCore.Core.Implement
     public class ChungTuService : IChungTuService
     {
         private readonly ChungTuRepository _chungTuRepository;
+        private readonly ChungTuChiTietRepository _chungTuChiTietRepository;
         private readonly IMapper _mapper;
 
-        public ChungTuService(ChungTuRepository chungTuRepository, IMapper mapper)
+        public ChungTuService(ChungTuRepository chungTuRepository, IMapper mapper,ChungTuChiTietRepository chungTuChiTietRepository)
         {
             _chungTuRepository = chungTuRepository;
             _mapper = mapper;
+            _chungTuChiTietRepository = chungTuChiTietRepository;
         }
 
         public async Task<ChungTuDto?> GetByIdAsync(long id)
         {
             var entity = await _chungTuRepository.GetByIdAsync(id);
             return entity == null ? null : _mapper.Map<ChungTuDto>(entity);
+        }
+        public async Task<ChungTuDto?> GetByIdLazyLoadingAsync(long id, bool loadDetails)
+        {
+            // Lấy ChungTu cơ bản (không có chi tiết)
+            var entity = await _chungTuRepository.GetByIdWithLazyLoadingAsync(id);
+            if (entity == null) return null;
+
+            var dto = _mapper.Map<ChungTuDto>(entity);
+
+            // Chỉ tải chi tiết khi cần thiết 
+            if (loadDetails)
+            {
+                // Tải chi tiết theo yêu cầu
+                var chiTiets = await _chungTuChiTietRepository.LoadChiTietsAsync(id);
+                dto.ChungTuChiTiets = _mapper.Map<ICollection<ChungTuChiTietDto>>(chiTiets);
+            }
+
+            return dto;
         }
 
         public async Task<List<ChungTuDto>> GetAllAsync()
@@ -45,6 +65,8 @@ namespace EFCore.Core.Implement
         {
             var existing = await _chungTuRepository.GetByIdAsync(dto.Id);
             if (existing == null) return;
+            if (!existing.RowVersion.SequenceEqual(dto.RowVersion))
+                throw new DbUpdateConcurrencyException("Dữ liệu đã bị thay đổi bởi người khác.");
 
             // Cập nhật các trường của chứng từ
             _mapper.Map(dto, existing);

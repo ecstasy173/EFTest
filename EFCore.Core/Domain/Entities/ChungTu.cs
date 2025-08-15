@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFCore.Core.Domain.Entities;
 
@@ -186,6 +187,11 @@ public partial class ChungTu
     public long Id { get; set; }
 
     public long? DoiTuongId { get; set; }
-    public virtual IList<ChungTuChiTiet> ChungTuChiTiets { get; set; } = new List<ChungTuChiTiet>();
+    public virtual ICollection<ChungTuChiTiet> ChungTuChiTiets { get; set; } = new List<ChungTuChiTiet>();
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
+    [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]
+    public string? Email { get; set; }
+
 
 }

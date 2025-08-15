@@ -19,7 +19,13 @@ namespace EFCore.Core.Repository
                 .Where(ctct => ctct.IdchungTu == chungTuId)
                 .ToListAsync();
         }
+        public async Task<ICollection<ChungTuChiTiet>> LoadChiTietsAsync(long chungTuId)
+        {
+            return await _dbSet
+                .Where(ct => ct.IdchungTu == chungTuId)
+                .ToListAsync();
+        }
 
-      
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using EFCore.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -191,6 +192,9 @@ namespace EFCore.Core.Domain.Dto
 
         public long? DoiTuongId { get; set; }
         public virtual ICollection<ChungTuChiTietDto> ChungTuChiTiets { get; set; } = new List<ChungTuChiTietDto>();
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        public string Email { get; set; } = string.Empty;
 
     }
 }

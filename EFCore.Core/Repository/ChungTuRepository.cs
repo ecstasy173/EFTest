@@ -14,9 +14,24 @@ namespace EFCore.Core.Repository
 
         public override async Task<ChungTu?> GetByIdAsync(long id)
         {
-            return await _dbSet
-                .Include(ct => ct.ChungTuChiTiets)
-                .FirstOrDefaultAsync(ct => ct.Id == id);
+            try
+            {
+
+
+                return await _dbSet
+                    .Include(ct => ct.ChungTuChiTiets)
+                    .FirstOrDefaultAsync(ct => ct.Id == id);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not implemented here)
+                throw new Exception("An error occurred while retrieving the ChungTu by ID.", ex);
+            }
+        }
+        public async Task<ChungTu?> GetByIdWithLazyLoadingAsync(long id)
+        {
+            // Không sử dụng Include() - các chi tiết sẽ được tải khi truy cập
+            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(ct => ct.Id == id);
         }
     }
 }
