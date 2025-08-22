@@ -194,6 +194,7 @@ namespace EFCore.Core.Domain.Dto
         public virtual ICollection<ChungTuChiTietDto> ChungTuChiTiets { get; set; } = new List<ChungTuChiTietDto>();
         [Timestamp]
         public byte[] RowVersion { get; set; }
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
     }

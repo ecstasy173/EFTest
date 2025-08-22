@@ -19,7 +19,7 @@ namespace EFCore.Core.Repository
 
 
                 return await _dbSet
-                    .Include(ct => ct.ChungTuChiTiets)
+                    .Include(ct => ct.ChungTuChiTiets).AsSplitQuery()
                     .FirstOrDefaultAsync(ct => ct.Id == id);
             }
             catch (Exception ex)
@@ -31,7 +31,7 @@ namespace EFCore.Core.Repository
         public async Task<ChungTu?> GetByIdWithLazyLoadingAsync(long id)
         {
             // Không sử dụng Include() - các chi tiết sẽ được tải khi truy cập
-            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(ct => ct.Id == id);
+            return await _dbSet.FirstOrDefaultAsync(ct => ct.Id == id);
         }
     }
 }

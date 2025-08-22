@@ -1,4 +1,5 @@
 using AutoMapper;
+using EFCore.Api.Middlewares;
 using EFCore.Core.Domain.Entities;
 using EFCore.Core.Implement;
 using EFCore.Core.Interface;
@@ -7,23 +8,44 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 // Lấy connection string từ appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(connectionString))
 {
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration.");
 }
-var port = builder.Configuration.GetSection("AppSettings:ApplicationPort").Value;
-Console.WriteLine($"Application is running on port {port}");
+
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<QlvtthanDongBacOfficialContext>(options =>
-    options.UseSqlServer(connectionString).LogTo(Console.WriteLine, LogLevel.Information));
+
+// Cấu hình DbContext dựa vào môi trường
+if (builder.Environment.IsDevelopment())
+{
+    // Môi trường Development: Bật log query
+    builder.Services.AddDbContext<QlvtthanDongBacOfficialContext>(options =>
+        options.UseLazyLoadingProxies().UseSqlServer(connectionString)
+               .LogTo(Console.WriteLine, LogLevel.Information)
+               .EnableSensitiveDataLogging());  // Hiển thị cả tham số trong query
+}
+else
+{
+    // Môi trường Production: Tắt log query
+    builder.Services.AddDbContext<QlvtthanDongBacOfficialContext>(options =>
+        options.UseSqlServer(connectionString));
+
+    Console.WriteLine("====== PRODUCTION ENVIRONMENT ======");
+}
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -40,6 +62,34 @@ builder.Services.AddAutoMapper(cfg =>
 var app = builder.Build();
 
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<QlvtthanDongBacOfficialContext>();
+    try
+    {
+        if (!dbContext.Database.CanConnect())
+        {
+            Log.Error("Không thể kết nối đến database với connection string: {ConnectionString}", connectionString);
+            Console.WriteLine("Không thể kết nối đến database. Ứng dụng sẽ dừng lại.");
+            Environment.Exit(1);
+        }
+    }
+    catch (Exception ex)
+    {
+        Log.Error(ex, "Lỗi khi kiểm tra kết nối database: {Message}", ex.Message);
+        Console.WriteLine("Lỗi khi kiểm tra kết nối database. Ứng dụng sẽ dừng lại.");
+        Environment.Exit(1);
+    }
+}
+var port = builder.Configuration.GetSection("AppSettings:ApplicationPort").Value;
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation($"Application is running on port {port}");
+Console.WriteLine($"Application is running on port {port}");
+
+// Middleware for logging requests
+app.UseMiddleware<RequestLoggingMiddleware>();
+// Middleware for validating requests
+app.UseMiddleware<RequestValidationMiddleware>();
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler(errorApp =>
 {
@@ -74,5 +124,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+Console.WriteLine($"Application is running on port {port}");
 
 app.Run();

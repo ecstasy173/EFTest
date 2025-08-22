@@ -1,6 +1,7 @@
 ﻿using EFCore.Core.Domain.Dto;
 using EFCore.Core.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EFCore.Api.Controllers
@@ -47,21 +48,46 @@ namespace EFCore.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] ChungTuDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+                HttpContext.Items["ModelStateErrors"] = errors;
+                return BadRequest(new ApiResponse<object>("Dữ liệu không hợp lệ", errors, "BadRequest"));
+            }
+
             if (!string.IsNullOrEmpty(dto.Email) && !IsValidEmail(dto.Email))
                 return BadRequest(new ApiResponse<object>("Email không đúng định dạng", null, "BadRequest"));
+
             await _chungTuService.AddAsync(dto);
             return Ok(new ApiResponse<object>("Tạo mới thành công", null));
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
         public async Task<ActionResult<ApiResponse<object>>> Update([FromRoute] long id, [FromBody] ChungTuDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+                HttpContext.Items["ModelStateErrors"] = errors;
+                return BadRequest(new ApiResponse<object>("Dữ liệu không hợp lệ", errors, "BadRequest"));
+            }
             if (!string.IsNullOrEmpty(dto.Email) && !IsValidEmail(dto.Email))
                 return BadRequest(new ApiResponse<object>("Email không đúng định dạng", null, "BadRequest"));
             if (id != dto.Id)
                 return BadRequest(new ApiResponse<object>("Id không khớp", null, "BadRequest"));
             await _chungTuService.UpdateAsync(dto);
-            return Ok(new ApiResponse<object>("Cập nhật thành công", null));
+            return Ok();
         }
 
         [HttpDelete("{id}")]
