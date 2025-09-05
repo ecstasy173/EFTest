@@ -497,3 +497,4 @@ EFCore.Core/obj/project.assets.json
 EFCore.Core/obj/project.nuget.cache
 
 
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
