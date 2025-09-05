@@ -399,6 +399,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# Additional files built by Visual Studio
+*.bin
+*.dll
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
@@ -428,3 +431,69 @@ EFCore.Core/obj/Debug/net8.0/EFCore.Core.dll
 EFCore.Core/obj/Debug/net8.0/EFCore.Core.pdb
 EFCore.Core/obj/Debug/net8.0/ref/EFCore.Core.dll
 EFCore.Core/obj/Debug/net8.0/refint/EFCore.Core.dll
+.vs/EFCore/v17/.suo
+.vs/EFCore/v17/.suo
+.vs/EFCore/v17/DocumentLayout.json
+.vs/ProjectEvaluation/efcore.metadata.v8.bin
+.vs/ProjectEvaluation/efcore.projects.v8.bin
+.vs/ProjectEvaluation/efcore.strings.v8.bin
+EFCore.Api/bin/Debug/net8.0/appsettings.json
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.deps.json
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.dll
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.exe
+EFCore.Api/bin/Debug/net8.0/EFCore.Api.pdb
+EFCore.Api/bin/Debug/net8.0/EFCore.Core.dll
+EFCore.Api/bin/Debug/net8.0/EFCore.Core.pdb
+EFCore.Api/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Caching.Abstractions.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+EFCore.Api/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
+EFCore.Api/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+EFCore.Api/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+EFCore.Api/bin/Debug/net8.0/System.IO.Pipelines.dll
+EFCore.Api/bin/Debug/net8.0/System.Text.Encodings.Web.dll
+EFCore.Api/bin/Debug/net8.0/System.Text.Json.dll
+EFCore.Api/obj/Debug/net8.0/apphost.exe
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.AssemblyInfo.cs
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.AssemblyInfoInputs.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.assets.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.csproj.AssemblyReference.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.csproj.CoreCompileInputs.cache
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.csproj.FileListAbsolute.txt
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.dll
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.GeneratedMSBuildEditorConfig.editorconfig
+EFCore.Api/obj/Debug/net8.0/EFCore.Api.pdb
+EFCore.Api/obj/Debug/net8.0/ref/EFCore.Api.dll
+EFCore.Api/obj/Debug/net8.0/refint/EFCore.Api.dll
+EFCore.Api/obj/EFCore.Api.csproj.nuget.dgspec.json
+EFCore.Api/obj/EFCore.Api.csproj.nuget.g.props
+EFCore.Api/obj/EFCore.Api.csproj.nuget.g.targets
+EFCore.Api/obj/project.assets.json
+EFCore.Api/obj/project.nuget.cache
+EFCore.Core/bin/Debug/net8.0/EFCore.Core.deps.json
+EFCore.Core/bin/Debug/net8.0/EFCore.Core.dll
+EFCore.Core/bin/Debug/net8.0/EFCore.Core.pdb
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.AssemblyInfo.cs
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.AssemblyInfoInputs.cache
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.assets.cache
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.csproj.AssemblyReference.cache
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.csproj.CoreCompileInputs.cache
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.csproj.FileListAbsolute.txt
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.dll
+EFCore.Core/obj/Debug/net8.0/EFCore.Core.pdb
+EFCore.Core/obj/Debug/net8.0/ref/EFCore.Core.dll
+EFCore.Core/obj/Debug/net8.0/refint/EFCore.Core.dll
+EFCore.Core/obj/EFCore.Core.csproj.nuget.dgspec.json
+EFCore.Core/obj/project.assets.json
+EFCore.Core/obj/project.nuget.cache
+
+
