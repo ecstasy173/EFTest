@@ -9,6 +9,11 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using MediatR;
+using System.Reflection;
+using EFCore.Api.Models;
+using EFCore.Core.Queries;
+using EFCore.Core.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +53,12 @@ else
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OperationFilter<AddHeaderOperationFilter>();
+}
+);
+
 // Register repository and mapper
 builder.Services.AddScoped<ChungTuRepository>();
 builder.Services.AddScoped<ChungTuChiTietRepository>();
@@ -57,6 +67,10 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MapperProfile>();
 });
+builder.Services.AddMediatR([typeof(GetChungTuByIdQuery).Assembly,
+    typeof(CreateChungTuCommand).Assembly
+]);
+
 
 
 var app = builder.Build();
